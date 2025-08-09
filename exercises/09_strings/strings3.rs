@@ -1,13 +1,25 @@
 fn trim_me(input: &str) -> &str {
     // TODO: Remove whitespace from both ends of a string.
+    input.trim()
 }
 
 fn compose_me(input: &str) -> String {
     // TODO: Add " world!" to the string! There are multiple ways to do this.
+
+    /*
+        A &str is immutable and fixed-size — so any “change” really means creating a new string and assigning it back to your variable.
+        This works because the variable can point to a different string, even though the original slice was immutable.
+    */
+
+    let mut new = input.to_string();
+    new.push_str(" world!");
+
+    new
 }
 
 fn replace_me(input: &str) -> String {
     // TODO: Replace "cars" in the string with "balloons".
+    input.replace("cars", "balloons")
 }
 
 fn main() {
