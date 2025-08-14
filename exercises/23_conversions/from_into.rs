@@ -35,19 +35,23 @@ impl Default for Person {
 // 6. If parsing the age fails, return the default of `Person`.
 impl From<&str> for Person {
     fn from(s: &str) -> Self {
-        let values: Vec<&str> = s.split(",").collect();
-        if values.len() != 2 {
-            Person::default()
-        } else if values[0].is_empty() {
-            Person::default()
-        } else {
-            match values[1].parse::<u8>() {
-                Ok(age) => Person {
-                    name: values[0].to_string(),
-                    age: age,
-                },
-                Err(_e) => Person::default(),
-            }
+        let mut values = s.split(",");
+
+        let (Some(name), Some(age), None) = (values.next(), values.next(), values.next()) else {
+            return Self::default();
+        };
+
+        if name.is_empty() {
+            return Self::default();
+        }
+
+        let Ok(age) = age.parse::<u8>() else {
+            return Self::default();
+        };
+
+        Person {
+            name: name.into(),
+            age,
         }
     }
 }
